@@ -17,11 +17,13 @@ int search(FILE *,char *);
 void list(FILE *);
 int delete(FILE *, char *);
 
-FILE * open_db_file();void print_usage(char *, char *);
+FILE * open_db_file();
+void print_usage(char *, char *);
 entry *load_entries(FILE *);
 entry*create_entry_node(char *, char *);
 void free_entries(entry *); 
-void write_all_entries(entry *);int main(int argc, char *argv[]) {
+void write_all_entries(entry *);
+int main(int argc, char *argv[]) {
   if (argc == 1) {
     print_usage("Insufficient arguments", argv[0]);
     exit(1);
@@ -45,7 +47,8 @@ void write_all_entries(entry *);int main(int argc, char *argv[]) {
     list(fp);
     fclose(fp);
     exit(0);
-  } else if (strcmp(argv[1], "search") == 0) {if (argc != 3) {
+  } else if (strcmp(argv[1], "search") == 0) {
+if (argc != 3) {
       print_usage("Improper arguments for delete", argv[0]);
       exit(1);
     }
@@ -58,7 +61,8 @@ void write_all_entries(entry *);int main(int argc, char *argv[]) {
     }
     fclose(fp);
     exit(0);
-  } else if (strcmp(argv[1], "delete") == 0) {if (argc != 3) {
+  } else if (strcmp(argv[1], "delete") == 0) {
+if (argc != 3) {
       print_usage("Improper arguments for delete", argv[0]);
       exit(1);
     }
@@ -95,7 +99,8 @@ void free_entries(entry *p) {
     free(temp);
     temp=tmp_nxt;
   }
-  return;}
+  return;
+}
 
 void print_usage(char *message, char *progname) {
   printf("Error : %s\n", message);
@@ -128,7 +133,8 @@ entry *load_entries(FILE *fp) {
   memset(phone, '\0', 20);
   entry *ret = NULL;
   entry *current = NULL;
-  entry *tmp = NULL;while (fscanf(fp, "%20[^,\n],%20[^,\n]\n", name, phone) != EOF) {
+  entry *tmp = NULL;
+while (fscanf(fp, "%20[^,\n],%20[^,\n]\n", name, phone) != EOF) {
     tmp = create_entry_node(name, phone);
     if (ret == NULL)
       ret = tmp;
@@ -179,13 +185,17 @@ int search(FILE *db_f,char *name){
     p=p->next;
   }
   free_entries(base);
-  return 0;int delete(FILE *db_file, char *name) {
+  return 0;
+}
+int delete(FILE *db_file, char *name) {
   entry *p = load_entries(db_file);
   entry *base = p;
   entry *prev = NULL;
   entry *del = NULL ; 
   int deleted = 0;
-  while (p!=NULL) {if(p==base){
+  while (p!=NULL) {
+    if (strcmp(p->name, name) == 0) {
+if(p==base){
         base=p->next;
         free(p);
         deleted=1;
@@ -204,6 +214,4 @@ int search(FILE *db_f,char *name){
   write_all_entries(base);
   free_entries(base);
   return deleted;
-}
-    if (strcmp(p->name, name) == 0) {
 }
